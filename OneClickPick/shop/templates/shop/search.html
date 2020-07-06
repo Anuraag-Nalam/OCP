@@ -1,0 +1,12 @@
+{% extends 'shop/basic.html' %}
+<!-- we are just telling django to bring up whatever content is present inside the basic.html file present in the shop directory inside the template
+directory -->
+{%block title%} Title of search {%endblock%}
+{% block css%}
+body{
+font-family: 'Dancing Script', cursive;
+font-family: 'Roboto Condensed', sans-serif;
+}
+{% endblock%}
+
+{%block body%}this is the body of the search{%endblock%}

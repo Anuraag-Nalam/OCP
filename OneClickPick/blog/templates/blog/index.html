@@ -1,0 +1,107 @@
+<!-- we have created our own tempaltes directory in the blog directory and have created a new html file called as
+index.html where we are going to include our bootstrap. -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Roboto+Condensed:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+
+  <title>One Click Pick</title>
+  <style>
+    body {
+      font-family: 'Dancing Script', cursive;
+      font-family: 'Roboto Condensed', sans-serif;
+    }
+  </style>
+  <!-- Bootstrap CSS -->
+
+
+  <title>INDEX.HTML</title>
+  <!--    basically we have added a new directory called as static directory inside the blog and shop apps and then we have created-->
+  <!--another new directory into it which has the names of the respectieve apps and then again we are going to create a new file called-->
+  <!--as mystatic.txt in both the apps. static directory is must because u want to include images,text etc. So as to load the static-->
+  <!--file we have to write as {%load static%}-->
+  <!--    about cdn it is there in the video number 23-->
+  
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v7.0" nonce="iltnelNu"></script>
+</head>
+
+<body>
+  <!-- <h1>index blog html page</h1>
+    {%load static%} -->
+  <!--    this is similar to ginger tempplating. here we are trying to access mystatic.txt-->
+  <!-- <a href="{% static 'blog/mystatic.txt' %}">Click Over Me to visit static page</a> -->
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">ONE CLICK PICK (An E-com Website For You)</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="/shop/about">ABOUT US <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/shop/contact">CONTACT US</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/shop/tracker">TRACKER</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/shop/checkout">CHECK OUT</a>
+        </li>
+        <li class="nav-item" id='clearcart'>
+          <a class="nav-link" href="#">CLEAR CART</a>
+        </li>
+        <li class="nav-item" id='blog'>
+          <a class="nav-link" href="/blog">BLOG</a>
+        </li>
+
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+  <div class="container">
+    <div class="row my-2">
+    {% for item in myposts%}
+
+
+
+      <div class="col-md-6">
+        <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+          <div class="col p-4 d-flex flex-column position-static">
+            <strong class="d-inline-block mb-2 text-primary">{{item.head0}}</strong>
+            <h3 class="mb-0">{{item.title}}</h3>
+            <div class="mb-1 text-muted">Nov 12</div>
+            <p>{{item.head1}}.</p>
+            <a href="blogpost/{{item.post_id}}" class="stretched-link">Continue reading</a>
+          </div>
+          <div class="col-auto d-none d-lg-block">
+            <img src="/media/{{item.image}}" class="bd-placeholder-img" width="200" height="250"  aria-label="Placeholder: Thumbnail">
+              <title>Placeholder</title>
+          </div>
+        </div>
+      </div>
+{% if forloop.counter|divisibleby:2 %}
+    </div><div class="row my-2">
+    {% endif %}
+    {% endfor %}
+  </div>
+
+
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+</html>

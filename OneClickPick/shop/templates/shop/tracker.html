@@ -1,0 +1,162 @@
+<html lang="en">
+
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Roboto+Condensed:ital,wght@1,700&display=swap" rel="stylesheet">
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <style>
+    body {
+
+      font-family: 'Roboto Condensed', sans-serif;
+    }
+  </style>
+
+  <title>Tracker page</title>
+</head>
+
+
+<body>
+
+
+
+  {% load static %}
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/shop/">ONE CLICK PICK (An E-com Website For You)</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="/shop/about">ABOUT US <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/shop/contact">CONTACT US</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/shop/tracker">TRACKER</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/shop/checkout">CHECK OUT</a>
+        </li>
+        <li class="nav-item" id='blog'>
+          <a class="nav-link" href="/blog">BLOG</a>
+        </li>
+
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+
+      <!-- <button type="button" class="btn btn-secondary mx-2" id="popcart" data-container="body" data-html='true' data-toggle="popover" data-placement="bottom" data-content="Cart for your items in my OneClickPick cart">
+        Cart(<span id='cart'>0</span>)
+      </button> -->
+    </div>
+  </nav>
+  <div class="container">
+      <div class="col my-4">
+          <h2>Enter your Order Id and Email address to track your order</h2>
+          <form method="post" action="#" id="trackerForm">{% csrf_token %}
+              <div class="form-row">
+                  <div class="form-group col-md-6">
+                      <label for="inputname">Order Id</label>
+                      <input type="text" class="form-control" id="orderId" name="orderId" placeholder="Order Id">
+                  </div>
+                  <div class="form-group col-md-6">
+                      <label for="inputEmail4">Email</label>
+                      <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                  </div>
+                  <button type="submit" class="btn btn-primary">Track Order</button>
+              </div>
+      </div>
+      <div class="col my-4">
+          <h2>Your Order Status</h2>
+          <div class="my-4">
+              <ul class="list-group" id="items">
+              	Enter your order Id and Email and click Track Order to find details about your order!
+              </ul>
+          </div>
+          <h2>Your Order Details</h2>
+          <div class="my-4">
+              <ul class="list-group" id="citems">
+
+              </ul>
+          </div>
+      </div>
+  </div>
+
+</body>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<script>
+$('#trackerForm').submit(function(event) {
+    $('#items').empty();
+    var formData = {
+        'orderId': $('input[name=orderId]').val(),
+        'email': $('input[name=email]').val(),
+        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+    };
+    $.ajax({
+            type: 'POST',
+            url: '/shop/tracker/',
+            data: formData,
+            encode: true
+        })
+        .done(function(data) {
+            console.log(data)
+            data = JSON.parse(data);
+            updates=data[0];
+            if (updates.length > 0 & updates != {}) {
+                for (i = 0; i < updates.length; i++) {
+                    let text = updates[i]['text'];
+                    let time = updates[i]['time'];
+                    mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+                    ${text}
+                    <span class="badge badge-primary badge-pill">${time}</span>
+                </li>`
+                    $('#items').append(mystr);
+                }
+            } else {
+              mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+                    Sorry, We are not able to fetch this order id and email. Make sure to type correct order Id and email</li>`
+              $('#items').append(mystr);
+            }
+            cart=JSON.parse(data[1]);
+            for (item in cart) {
+              //let creates a own block of the variable which is assigned to it. Let has its own scope nature
+              let name = cart[item][1];
+              let qty = cart[item][0];
+              //similar to fstrings or formatting strings present in python, we are accessing the variables using the $ sign
+              //instead of using +
+              mystr = ` <li class="list-group-item d-flex justify-content-between align-items-center">
+          ${name}
+          <span class="badge badge-primary badge-pill">${qty}</span>
+        </li>`
+              $('#citems').append(mystr)
+            }
+
+
+
+        });
+    event.preventDefault();
+});
+</script>
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+
+</html>
