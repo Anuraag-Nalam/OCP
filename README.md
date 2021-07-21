@@ -6,4 +6,5 @@ COntatc Us, tracker and about us.
 
 The items which will be ordered will be displayed in the checkout page along with the total amount where after clicking
 the submit button the customer id is automatically generated and using this customer id, he will come to know the details of his order and the arrival date in
-the tracker page. I also integrated paytm into my website
+the tracker page. I have also integrated paytm into my website from where customer can transfer money to my account. I have created a merchant id in order
+to do that.
